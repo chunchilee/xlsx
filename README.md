@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
+## 快速開始
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+以下步驟可在本機啟動與使用此專案：
 
-Currently, two official plugins are available:
+1. 安裝相依套件
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. 啟動開發伺服器（Vite）
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+瀏覽器開啟 http://localhost:5173（或以 Vite 顯示的位址）即可看到應用程式。
+
+3. 建置（Production）
+
+```bash
+npm run build
+```
+
+4. 預覽建置結果
+
+```bash
+npm run preview
+```
+
+使用說明：
+
+- 在網頁中點選「選取 Excel 檔案」上傳 `.xlsx` 或 `.xls` 檔案。
+- 應用程式會解析第一個工作表，嘗試擷取 `InvoiceDate`、`CustomerID`、`Country` 欄位（有欄位才會使用）。
+- 解析時畫面會顯示進度條；完成後會顯示兩個圖表：
+  - 客戶數量按國家（圓餅圖）
+  - 每日發票數（長條圖），可切換月份檢視每日分佈
+
+相關程式碼位置：
+
+- `src/pages/UploadPage.tsx`：上傳、解析與圖表顯示邏輯。
+- `src/workers/parseWorker.ts`：Web Worker 版本的解析程式（若有可用會優先使用）。
+
+常見問題：
+
+- 若瀏覽器或環境無法建立 Web Worker，程式會退回主執行緒解析（`xlsx` 套件）。
+- 若資料量非常大，圖表會自動以月份彙總以維持效能。
+
+```
+
 ```

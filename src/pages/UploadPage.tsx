@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Pie, Bar } from "react-chartjs-2";
-import Chart from "chart.js/auto";
 import * as XLSX from "xlsx";
 
 type ParseProgress = { type: "progress"; percent: number };
@@ -390,7 +389,6 @@ const UploadPage: React.FC = () => {
                 );
                 labels = arr.map((e) => e[0]);
                 counts = arr.map((e) => e[1]);
-                aggNote = "（已按月彙總）";
               } else if (labels.length > 30) {
                 // show recent 30 days
                 const n = 30;
@@ -399,10 +397,6 @@ const UploadPage: React.FC = () => {
                 counts = counts.slice(start);
                 aggNote = `（僅顯示最近 ${labels.length} 筆）`;
               }
-
-              const percentData = counts.map((v) =>
-                Number(((v / total) * 100).toFixed(2))
-              );
 
               // prepare months list (from monthlyData if available, else derive from labels)
               const months =
