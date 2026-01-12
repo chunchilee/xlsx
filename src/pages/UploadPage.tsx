@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Pie, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+  Title,
+} from "chart.js";
 import * as XLSX from "xlsx";
 
 type ParseProgress = { type: "progress"; percent: number };
@@ -10,6 +20,18 @@ type ParseResult = {
 };
 
 const UploadPage: React.FC = () => {
+
+  // Register Chart.js components used by react-chartjs-2
+  // (required for Chart.js v3+ when not using chart.js/auto)
+  ChartJS.register(
+    ArcElement,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend,
+    Title
+  );
   const [progress, setProgress] = useState<number | null>(null);
   const [countryData, setCountryData] = useState<{
     labels: string[];
